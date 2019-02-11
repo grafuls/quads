@@ -18,6 +18,7 @@ wp_wiki_git_manage = conf["wp_wiki_git_manage"]
 wp_wiki_git_repo_path = conf["wp_wiki_git_repo_path"]
 
 if __name__ == "__main__":
+
     create_input.main()
     main_md = os.path.join(wp_wiki_git_repo_path, "main.md")
     if wp_wiki_git_manage:
