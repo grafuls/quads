@@ -7,12 +7,8 @@ from datetime import datetime
 
 import requests
 
-from quads.helpers import quads_load_config
-from quads.tools.common import environment_released
+from quads.config import conf
 from quads.tools.foreman import Foreman
-
-conf_file = os.path.join(os.path.dirname(__file__), "../../conf/quads.yml")
-conf = quads_load_config(conf_file)
 
 HEADERS = [
     "SystemHostname",
@@ -47,7 +43,7 @@ def print_summary():
     _summary.append("| %s |\n" % " | ".join(_headers))
     _summary.append("| %s |\n" % " | ".join(["---" for _ in range(len(_headers))]))
 
-    _cloud_response = requests.get(os.path.join(API_URL, "cloud"))
+    _cloud_response = requests.get(os.path.join(API_URL, "summary"))
     _cloud_summary = []
     if _cloud_response.status_code == 200:
         _cloud_summary = _cloud_response.json()
@@ -61,7 +57,7 @@ def print_summary():
         cloud_specific_tag = "%s_%s_%s" % (cloud, owner, ticket)
 
         style_tag_end = "</span>"
-        if environment_released(None, None) or cloud == "cloud01":
+        if cloud["released"] or cloud == "cloud01":
             style_tag_start = '<span style="color:green">'
             instack_link = os.path.join(conf["quads_url"], "cloud", "%s_instackenv.json" % cloud)
             instack_text = "download"
@@ -182,6 +178,8 @@ def print_faulty(broken_hosts):
 def add_row(host):
     lines = []
     current_schedule = ""
+    date_start = None
+    date_end = None
     short_host = host["name"].split(".")[0]
     _url = os.path.join(API_URL, "current_schedule")
     _response = requests.get(_url)

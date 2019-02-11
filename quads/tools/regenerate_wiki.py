@@ -3,11 +3,9 @@
 import os
 from datetime import datetime
 from git import Repo, InvalidGitRepositoryError
-from quads.helpers import quads_load_config
+from quads.config import conf
 from quads.tools import create_input, create_input_assignments, racks_wiki
 
-conf_file = os.path.join(os.path.dirname(__file__), "../../conf/quads.yml")
-conf = quads_load_config(conf_file)
 
 wp_wiki = conf["wp_wiki"]
 wp_username = conf["wp_username"]

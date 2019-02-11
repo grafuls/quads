@@ -4,15 +4,15 @@ import argparse
 import os
 import requests
 import sys
+import urllib3
 
-from helpers import quads_load_config
+from quads.config import conf as quads_config
 
 
-def main():
+def main(argv=None):
     quads_config_file = os.path.dirname(__file__) + "/../conf/quads.yml"
-    quads_config = quads_load_config(quads_config_file)
 
-    requests.packages.urllib3.disable_warnings()
+    urllib3.disable_warnings()
 
     if "data_dir" not in quads_config:
         print("quads: Missing \"data_dir\" in " + quads_config_file)
@@ -33,7 +33,7 @@ def main():
     parser = argparse.ArgumentParser(description='Query current hosts marked for build')
     parser.add_argument('--cloud', dest='cloud', type=str, default=None, help='specify the cloud to query')
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     exitcode = 0
     # need to determine the ticket / password

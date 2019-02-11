@@ -2,12 +2,10 @@ import cherrypy
 import datetime
 import json
 import logging
-import os
 import sys
 import time
 
 from quads import model
-from quads.helpers import quads_load_config
 from mongoengine.errors import DoesNotExist
 
 from quads.tools.regenerate_vlans_wiki import regenerate_vlans_wiki
@@ -18,9 +16,6 @@ ch.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 ch.setFormatter(formatter)
 logger.addHandler(ch)
-
-conf_file = os.path.join(os.path.dirname(__file__), "../conf/quads.yml")
-conf = quads_load_config(conf_file)
 
 
 class MethodHandlerBase(object):
@@ -141,10 +136,13 @@ class DocumentMethodHandler(MethodHandlerBase):
                 count = self.model.current_schedule(cloud=cloud).count()
                 clouds_summary.append(
                     {
-                        "name": cloud["name"],
+                        "name": cloud.name,
                         "count": count,
-                        "description": cloud["description"],
-                        "owner": cloud["owner"]
+                        "description": cloud.description,
+                        "owner": cloud.owner,
+                        "ticket": cloud.ticket,
+                        "ccuser": cloud.ccuser,
+                        "released": cloud.released
                     })
 
             return json.dumps(clouds_summary)

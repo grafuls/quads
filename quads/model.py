@@ -1,6 +1,4 @@
-import json
 from datetime import datetime
-from mongoengine.base import BaseDocument
 from mongoengine import (
     connect,
     Document,
@@ -71,6 +69,9 @@ class Cloud(Document):
     wipe = BooleanField()
     post_config = ListField()
     ccuser = ListField()
+    released = BooleanField(default=False)
+    valid = BooleanField(default=False)
+    notified = BooleanField(default=False)
     meta = {
         'indexes': [
             {
@@ -155,6 +156,9 @@ class Host(Document):
     default_cloud = ReferenceField(Cloud)
     host_type = StringField()
     interfaces = ListField(EmbeddedDocumentField(Interface))
+    nullos = BooleanField(default=True)
+    build = BooleanField(default=False)
+    last_build = DateTimeField()
     meta = {
         'indexes': [
             {

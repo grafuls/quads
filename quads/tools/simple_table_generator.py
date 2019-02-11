@@ -6,11 +6,10 @@ import sys
 import csv
 from datetime import datetime
 from jinja2 import Template
-from quads.helpers import quads_load_config
+from quads.config import conf as quads_config
 from quads.quads import Quads
 
 quads_config_file = os.path.dirname(__file__) + "/../conf/quads.yml"
-quads_config = quads_load_config(quads_config_file)
 
 TEMPLATES_PATH = os.path.join(os.path.dirname(__file__), "../templates")
 
