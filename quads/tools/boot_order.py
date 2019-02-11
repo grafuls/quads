@@ -28,7 +28,6 @@ def reconfigure(_host):
 
 
 if __name__ == "__main__":
-    import ipdb;ipdb.set_trace()
     foreman = Foreman(
         conf["foreman_api_url"],
         conf["foreman_username"],
