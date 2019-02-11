@@ -1,7 +1,3 @@
-Subject: Validation check succeeded for {{ cloud }} / {{ owner }} / {{ ticket }}
-From: QUADS <quads@{{ domain }}>
-Reply-To: dev-null@{{ domain }}
-
 A post allocation check previously failed for:
 
    cloud: {{ cloud }}
